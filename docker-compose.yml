@@ -1,0 +1,24 @@
+version: "3"
+services:
+  # l4_load_balancer:
+  #   container_name: l4_load_balancer
+  #   build: ./l4_load_balancer
+
+  ssl_termination_proxy:
+    container_name: ssl_termination_proxy
+    build: ./ssl_termination_proxy
+    volumes:
+      - ./ssl_termination_proxy:/etc/nginx
+    ports:
+      - 8000:80
+      - 443:443
+    depends_on:
+      - app
+
+  # l7_load_balancer:
+
+  app:
+    container_name: app
+    build: ./app
+    ports:
+      - 3000:3000

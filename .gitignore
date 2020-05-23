@@ -1,0 +1,8 @@
+*.p12
+*.pem
+*.crt
+*.key
+*.pfx
+*.csr
+
+node_modules/
