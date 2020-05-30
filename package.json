@@ -5,5 +5,9 @@
   "repository": "git@github.com:ysku/client_certificate_proxy.git",
   "author": "ysku <yusuke1581@gmail.com>",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.21.0"
+  },
+  "workspaces": ["packages/*"]
 }
