@@ -4,4 +4,8 @@ import * as cdk from '@aws-cdk/core'
 import { IacStack } from '../lib/iac-stack'
 
 const app = new cdk.App()
-new IacStack(app, 'IacStack')
+new IacStack(app, 'IacStack', {
+  env: {
+    region: 'ap-northeast-1',
+  },
+})
