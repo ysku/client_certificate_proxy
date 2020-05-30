@@ -10,7 +10,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk"
+    "cdk": "cdk",
+    "lint": "prettier --list-different './{lib,bin,test}/**/*.{js,ts,json}'",
+    "lint:fix": "prettier --write './{lib,bin,test}/**/*.{js,ts,json}'"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.41.0",
@@ -19,6 +21,8 @@
     "@types/node": "10.17.5",
     "aws-cdk": "1.41.0",
     "jest": "^25.5.0",
+    "lint-staged": "^10.2.7",
+    "prettier": "^2.0.5",
     "ts-jest": "^25.3.1",
     "ts-node": "^8.1.0",
     "typescript": "~3.7.2"
