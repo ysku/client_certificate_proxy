@@ -1,0 +1,28 @@
+{
+  "name": "@client_certificate_proxy/tls_termination_proxy",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "ysku <yusuke1581@gmail.com>",
+  "homepage": "https://github.com/ysku/client_certificate_proxy#readme",
+  "license": "UNLICENSED",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ysku/client_certificate_proxy.git"
+  },
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "lint": "prettier --list-different './{src,test}/**/*.{js,ts,json}'",
+    "lint:fix": "prettier --write './{src,test}/**/*.{js,ts,json}'"
+  },
+  "bugs": {
+    "url": "https://github.com/ysku/client_certificate_proxy/issues"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  }
+}
