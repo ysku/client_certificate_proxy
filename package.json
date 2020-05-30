@@ -1,0 +1,9 @@
+{
+  "name": "client_certificate_proxy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ysku/client_certificate_proxy.git",
+  "author": "ysku <yusuke1581@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true
+}
