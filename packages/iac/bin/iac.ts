@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
-import { IacStack } from '../lib/iac-stack'
+import { EksStack } from '../lib'
 
 const app = new cdk.App()
-new IacStack(app, 'IacStack', {
+const props = {
   env: {
     region: 'ap-northeast-1',
   },
-})
+}
+new EksStack(app, 'EksStack', props)
