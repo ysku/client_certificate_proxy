@@ -3,9 +3,7 @@
 ## Usage
 
 ```
-const tlsTerminationProxy = require('@client_certificate_proxy/tls_termination_proxy');
 
-// TODO: DEMONSTRATE API
 ```
 
 ## Development

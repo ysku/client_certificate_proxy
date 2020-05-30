@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
+    "declarationDir": "lib",
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,
@@ -13,6 +15,9 @@
       "es6"
     ]
   },
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

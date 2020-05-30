@@ -6,3 +6,10 @@
 *.csr
 
 node_modules/
+
+*.d.ts
+*.js.map
+
+packages/tls_termination_proxy/lib/
+
+package-lock.json
