@@ -50,7 +50,9 @@ $ openssl req -new -key ${CLIENT_NAME}.key -out ${CLIENT_NAME}.csr -subj "/C=JP/
 $ openssl x509 -req -days 365 -in ${CLIENT_NAME}.csr -CA "$(mkcert -CAROOT)"/rootCA.pem -CAkey "$(mkcert -CAROOT)"/rootCA-key.pem -set_serial 01 -out ${CLIENT_NAME}.crt
 
 # クライアント証明書をPKCS12形式に変換
-$ openssl pkcs12 -export -out ${CLIENT_NAME}.pfx -inkey ${CLIENT_NAME}.key -in ${CLIENT_NAME}.crt -certfile "$(mkcert -CAROOT)"rootCA.pem
+$ openssl pkcs12 -export -out ${CLIENT_NAME}.pfx -inkey ${CLIENT_NAME}.key -in ${CLIENT_NAME}.crt -certfile "$(mkcert -CAROOT)"/rootCA.pem
+# キーは必要ないので含めない？
+$ openssl pkcs12 -export -out ${CLIENT_NAME}.pfx -nokeys -in ${CLIENT_NAME}.crt -certfile "$(mkcert -CAROOT)"rootCA.pem
 
 # 証明書をキーチェーンに設定
 $ open $(CLIENT_NAME).pfx
