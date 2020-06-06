@@ -1,11 +1,6 @@
 import * as cdk from '@aws-cdk/core'
 import { AutoScalingGroup, UpdateType } from '@aws-cdk/aws-autoscaling'
-import {
-  DefaultInstanceTenancy,
-  InstanceType,
-  SubnetType,
-  Vpc,
-} from '@aws-cdk/aws-ec2'
+import { InstanceType, Vpc } from '@aws-cdk/aws-ec2'
 import { Cluster, EksOptimizedImage, NodeType } from '@aws-cdk/aws-eks'
 import {
   ArnPrincipal,
@@ -20,38 +15,15 @@ import {
 
 const EKSClusterName = 'ClientCertificateTest'
 
+type EKSProps = {
+  vpc: Vpc
+} & cdk.StackProps
+
 export class EksStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props: EKSProps) {
     super(scope, id, props)
 
-    const vpc = new Vpc(this, 'cdk-vpc', {
-      cidr: '10.0.0.0/16',
-      defaultInstanceTenancy: DefaultInstanceTenancy.DEFAULT,
-      enableDnsSupport: true,
-      enableDnsHostnames: true,
-      subnetConfiguration: [
-        {
-          cidrMask: 24,
-          name: 'Public1',
-          subnetType: SubnetType.PUBLIC,
-        },
-        {
-          cidrMask: 24,
-          name: 'Public2',
-          subnetType: SubnetType.PUBLIC,
-        },
-        {
-          cidrMask: 24,
-          name: 'Private1',
-          subnetType: SubnetType.PRIVATE,
-        },
-        {
-          cidrMask: 24,
-          name: 'Private2',
-          subnetType: SubnetType.PRIVATE,
-        },
-      ],
-    })
+    const vpc = props.vpc
 
     const eksRole = new Role(this, 'eksRole', {
       assumedBy: new ServicePrincipal('eks.amazonaws.com'),
