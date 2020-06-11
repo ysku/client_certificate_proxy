@@ -1,0 +1,26 @@
+{
+  "name": "@client_certificate_proxy/app_server",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "ysku <yusuke1581@gmail.com>",
+  "homepage": "https://github.com/ysku/client_certificate_proxy#readme",
+  "license": "UNLICENSED",
+  "main": "lib/app_server.js",
+  "workspaces": {
+    "nohoist": [
+      "express",
+      "express/**"
+    ]
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "typescript": "^3.9.3"
+  }
+}
