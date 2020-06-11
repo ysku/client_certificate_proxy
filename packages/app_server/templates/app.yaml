@@ -1,0 +1,95 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  namespace: default
+  name: app-server
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: backend
+      name: app-server
+    spec:
+      containers:
+        - name: app-server
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 250M
+            requests:
+              cpu: 500m
+              memory: 250M
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-server
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: backend
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-server
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    # TODO: tune following properties
+    # alb.ingress.kubernetes.io/healthcheck-timeout-seconds:
+    # alb.ingress.kubernetes.io/healthy-threshold-count:
+    # alb.ingress.kubernetes.io/unhealthy-threshold-count:
+    # alb.ingress.kubernetes.io/healthcheck-interval-seconds:
+spec:
+  rules:
+    - host: {{ .Values.alb.host }}
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: app-server
+              servicePort: 80
