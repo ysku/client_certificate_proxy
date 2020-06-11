@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
-import { ACMPCAStack, EksStack, Route53Stack, VPCStack } from '../lib'
+import { ACMPCAStack, ECRStack, EksStack, Route53Stack, VPCStack } from '../lib'
 
 const app = new cdk.App()
 const props = {
@@ -28,6 +28,11 @@ const localZoneName = process.env.LOCAL_ZONE_NAME
 
 const vpc = new VPCStack(app, 'VPCStack', props)
 new ACMPCAStack(app, 'ACMPCAStack', props)
+new ECRStack(app, 'ECRStack', {
+  ...props,
+  // FIXME:
+  repositoryName: 'client_certificate_proxy'
+})
 new EksStack(app, 'EksStack', {
   ...props,
   vpc: vpc.vpc,
