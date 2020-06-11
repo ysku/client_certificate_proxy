@@ -27,7 +27,7 @@ if (!process.env.LOCAL_ZONE_NAME) {
 const localZoneName = process.env.LOCAL_ZONE_NAME
 
 const vpc = new VPCStack(app, 'VPCStack', props)
-// new ACMPCAStack(app, 'ACMPCAStack', props)
+new ACMPCAStack(app, 'ACMPCAStack', props)
 new EksStack(app, 'EksStack', {
   ...props,
   vpc: vpc.vpc,

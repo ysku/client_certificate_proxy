@@ -1,0 +1,60 @@
+{
+	"Resources": {
+		"RootCA": {
+			"Type": "AWS::ACMPCA::CertificateAuthority",
+			"Properties": {
+				"KeyAlgorithm": "RSA_2048",
+				"RevocationConfiguration": {
+					"CrlConfiguration": {
+						"Enabled": false
+					}
+				},
+				"SigningAlgorithm": "SHA256WITHRSA",
+				"Subject": {
+					"Country": "JP",
+					"Organization": "TODO",
+					"OrganizationalUnit": "TODO",
+					"State": "TOKYO",
+					"CommonName": "*.ysku.me",
+					"Locality": "MINATO"
+				},
+				"Type": "ROOT"
+			}
+		},
+		"RootCACertificate": {
+			"Type": "AWS::ACMPCA::Certificate",
+			"Properties": {
+				"CertificateAuthorityArn": {
+					"Ref": "RootCA"
+				},
+				"CertificateSigningRequest": {
+          "Fn::GetAtt": [
+            "RootCA",
+            "CertificateSigningRequest"
+          ]
+        },
+				"SigningAlgorithm": "SHA256WITHRSA",
+				"TemplateArn": "arn:aws:acm-pca:::template/RootCACertificate/V1",
+				"Validity": {
+					"Type": "DAYS",
+					"Value": 100
+				}
+			}
+		},
+		"RootCAActivation": {
+			"Type": "AWS::ACMPCA::CertificateAuthorityActivation",
+			"Properties": {
+				"CertificateAuthorityArn": {
+					"Ref": "RootCA"
+				},
+				"Certificate": {
+          "Fn::GetAtt": [
+            "RootCACertificate",
+            "Certificate"
+          ]
+        },
+				"Status": "ACTIVE"
+			}
+		}
+	}
+}
