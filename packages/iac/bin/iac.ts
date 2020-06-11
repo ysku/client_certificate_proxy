@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register'
 import * as cdk from '@aws-cdk/core'
-import { ACMPCAStack, ECRStack, EksStack, Route53Stack, VPCStack } from '../lib'
+import { ACMPCAStack, ECRStack, EksStack, Route53Stack, VPCStack, WAFStack } from '../lib'
 
 const app = new cdk.App()
 const props = {
@@ -26,6 +26,16 @@ if (!process.env.LOCAL_ZONE_NAME) {
 }
 const localZoneName = process.env.LOCAL_ZONE_NAME
 
+if (!process.env.BACKEND_LB_ARN) {
+  throw new Error('BACKEND_LB_ARN is required')
+}
+const loadBalancerArn = process.env.BACKEND_LB_ARN
+
+if (!process.env.BACKEND_LB_SECURITY_GROUP_ID) {
+  throw new Error('BACKEND_LB_SECURITY_GROUP_ID is required')
+}
+const securityGroupId = process.env.BACKEND_LB_SECURITY_GROUP_ID
+
 const vpc = new VPCStack(app, 'VPCStack', props)
 new ACMPCAStack(app, 'ACMPCAStack', props)
 new ECRStack(app, 'ECRStack', {
@@ -43,4 +53,9 @@ new Route53Stack(app, 'Route53Stack', {
   domainName,
   zoneName,
   localZoneName,
+})
+new WAFStack(app, 'WAFStack', {
+  ...props,
+  loadBalancerArn,
+  securityGroupId
 })

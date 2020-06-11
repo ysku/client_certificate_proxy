@@ -266,6 +266,22 @@
     "@aws-cdk/core" "1.41.0"
     constructs "^3.0.2"
 
+"@aws-cdk/aws-waf@1.41.0":
+  version "1.41.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-waf/-/aws-waf-1.41.0.tgz#1029e6fb392dcf8c27603be7d884b4d33ed42bd7"
+  integrity sha512-g8/cbm2F6sRO7FxvbuXIMk7SMMY2nq5P1LYB2C/SpDGNdci2WnhYEsB7KddrIJfyKYLkpXSlVS5z+KBzpkkjEQ==
+  dependencies:
+    "@aws-cdk/core" "1.41.0"
+    constructs "^3.0.2"
+
+"@aws-cdk/aws-wafv2@1.41.0":
+  version "1.41.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-wafv2/-/aws-wafv2-1.41.0.tgz#6b087553a271fb2edd6b79b815f967a5ec6654a8"
+  integrity sha512-S/rj35ju9cAb/MO8OU+3rjKqw15cy04Qj0gHG3cfa4RJilMG45mvSTn4UVN3wUYbrBIwnJqV3emuS1OiW6fG2A==
+  dependencies:
+    "@aws-cdk/core" "1.41.0"
+    constructs "^3.0.2"
+
 "@aws-cdk/cdk-assets-schema@1.41.0":
   version "1.41.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/cdk-assets-schema/-/cdk-assets-schema-1.41.0.tgz#0c42e188149a0ab25eea495098f2adafb6413c4d"
