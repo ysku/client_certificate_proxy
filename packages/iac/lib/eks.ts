@@ -3,14 +3,14 @@ import { AutoScalingGroup, UpdateType } from '@aws-cdk/aws-autoscaling'
 import { InstanceType, Vpc } from '@aws-cdk/aws-ec2'
 import { Cluster, EksOptimizedImage, NodeType } from '@aws-cdk/aws-eks'
 import {
+  AccountRootPrincipal,
   ArnPrincipal,
   CompositePrincipal,
   Effect,
   PolicyDocument,
   PolicyStatement,
   Role,
-  ServicePrincipal,
-  ManagedPolicy,
+  ServicePrincipal
 } from '@aws-cdk/aws-iam'
 
 const EKSClusterName = 'ClientCertificateTest'
@@ -25,15 +25,10 @@ export class EksStack extends cdk.Stack {
 
     const vpc = props.vpc
 
-    const eksRole = new Role(this, 'eksRole', {
-      assumedBy: new ServicePrincipal('eks.amazonaws.com'),
-    })
-    eksRole.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSClusterPolicy')
-    )
-    eksRole.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName('AmazonEKSServicePolicy')
-    )
+    const clusterAdmin = new Role(this, "AdminRole", {
+      roleName: `${EKSClusterName}-AdminRole`,
+      assumedBy: new AccountRootPrincipal()
+    });
 
     const cluster = new Cluster(this, 'cluster', {
       clusterName: EKSClusterName,
@@ -42,7 +37,7 @@ export class EksStack extends cdk.Stack {
         { subnets: vpc.publicSubnets }, // NOTE: for public load balancer
         { subnets: vpc.privateSubnets },
       ],
-      mastersRole: eksRole,
+      mastersRole: clusterAdmin,
       defaultCapacity: 0,
       defaultCapacityInstance: new InstanceType('t3.micro'),
     })
@@ -110,9 +105,9 @@ export class EksStack extends cdk.Stack {
       mapRole: true,
     })
 
-    cluster.awsAuth.addRoleMapping(eksRole, {
+    cluster.awsAuth.addRoleMapping(clusterAdmin, {
       groups: ['system:masters'],
-      username: eksRole.roleArn,
+      username: clusterAdmin.roleArn,
     })
     cluster.awsAuth.addRoleMapping(workerNodeGroup.role, {
       groups: ['system:bootstrappers', 'system:nodes'],
