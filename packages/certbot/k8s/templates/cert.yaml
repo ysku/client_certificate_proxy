@@ -1,0 +1,64 @@
+# TODO: CronJob
+apiVersion: v1
+kind: Pod
+metadata:
+  name: certbot
+  annotations:
+    iam.amazonaws.com/role: test-client-certificate
+spec:
+  serviceAccountName: certbot
+  containers:
+  - name: certbot
+    image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+    command:
+    - bash
+    - ./script.sh
+    env:
+    - name: EMAIL
+      value: {{ .Values.certbot.email }}
+    - name: DOMAIN
+      value: {{ .Values.certbot.domain | quote }}
+    - name: BASE_DOMAIN
+      value: {{ .Values.certbot.base_domain }}
+    imagePullPolicy: Always
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: certbot
+  namespace: default
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: certbot
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: certbot
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: certbot
+  apiGroup: ""
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: certbot
+rules:
+- apiGroups: [""]
+  resources:
+  - secrets
+  - serviceaccounts
+  - serviceaccounts/token
+  verbs:
+  - delete
+  - create
+  - patch
+  - get
+  - list
+  - update
+  - watch

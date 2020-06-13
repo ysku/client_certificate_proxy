@@ -1,0 +1,8 @@
+image:
+  repository: 969371781552.dkr.ecr.ap-northeast-1.amazonaws.com/certbot
+  tag: latest
+
+certbot:
+  email: ysku.dev@gmail.com
+  domain: '*.cert.aps.development.cureapp.net'
+  base_domain: 'cert.aps.development.cureapp.net'
