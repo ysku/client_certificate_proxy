@@ -41,7 +41,10 @@ new ACMPCAStack(app, 'ACMPCAStack', props)
 new ECRStack(app, 'ECRStack', {
   ...props,
   // FIXME:
-  repositoryName: 'client_certificate_proxy'
+  repositoryNames: [
+    'app_server',
+    'client_certificate_proxy'
+  ]
 })
 new EksStack(app, 'EksStack', {
   ...props,
