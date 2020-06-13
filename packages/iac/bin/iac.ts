@@ -43,6 +43,7 @@ new ECRStack(app, 'ECRStack', {
   // FIXME:
   repositoryNames: [
     'app_server',
+    'certbot',
     'client_certificate_proxy'
   ]
 })

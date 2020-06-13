@@ -13,10 +13,10 @@ export class ECRStack extends cdk.Stack {
 
     this.repositories = {}
 
-    props.repositoryNames.forEach((repositoryName, i) => {
+    props.repositoryNames.forEach(repositoryName => {
       const repository = new ecr.Repository(
         this,
-        `Repository${i+1}`,
+        `Repository${repositoryName}`,
         {
           repositoryName
         }
