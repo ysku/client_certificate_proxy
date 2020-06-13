@@ -9,5 +9,5 @@ $ aws eks --region ap-northeast-1 update-kubeconfig --name ApsCluster --role-arn
 ```
 
 ```
-$ helm template --values values.yaml --dry-run app-server . | kubectl apply -f -
+$ pushd k8s && helm template --values values.yaml --dry-run app-server . | kubectl apply -f - && popd
 ```
