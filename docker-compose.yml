@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+  proxy:
+    container_name: proxy
+    build:
+      context: ./packages/proxy
+      dockerfile: Dockerfile
+    ports:
+      - 8080:443
+    volumes:
+      - ./packages/proxy:/etc/nginx
+    depends_on:
+      - api
+  api:
+    container_name: api
+    build:
+      context: ./packages/api
+      dockerfile: Dockerfile

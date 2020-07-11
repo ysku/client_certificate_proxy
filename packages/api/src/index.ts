@@ -7,8 +7,11 @@ const app: express.Express = express()
 const router: express.Router = express.Router()
 
 router.get('/', (req: express.Request, res: express.Response) => {
+  console.log(' ***** headers ***** ')
+  console.log(req.headers)
   res.send('this is app server!!')
 })
+
 app.use(router)
 
 app.listen(port, () => {

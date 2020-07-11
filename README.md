@@ -8,5 +8,3 @@ Client Certificate Proxy Example
 ```
 $ docker-compose up
 ```
-
-ブラウザにて `https://localhost` にアクセス
