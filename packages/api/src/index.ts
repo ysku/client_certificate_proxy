@@ -1,18 +1,18 @@
 import * as express from 'express'
 
-const port = 3000
+const port = 3001
 
 const app: express.Express = express()
 
 const router: express.Router = express.Router()
 
-router.get('/', (req: express.Request, res: express.Response) => {
+router.get('/api', (req: express.Request, res: express.Response) => {
   console.log(' ***** headers ***** ')
   console.log(req.headers)
   res.send('this is app server!!')
 })
 
-router.get('/example', (req: express.Request, res: express.Response) => {
+router.get('/api/example', (req: express.Request, res: express.Response) => {
   console.log(' ***** headers ***** ')
   console.log(req.headers)
   res.json({

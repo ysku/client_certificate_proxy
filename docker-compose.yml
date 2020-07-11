@@ -11,8 +11,15 @@ services:
       - ./packages/proxy:/etc/nginx
     depends_on:
       - api
+      - app
   api:
     container_name: api
     build:
       context: ./packages/api
+      dockerfile: Dockerfile
+  app:
+    container_name: app
+    tty: true
+    build:
+      context: ./packages/app
       dockerfile: Dockerfile
