@@ -12,6 +12,14 @@ router.get('/', (req: express.Request, res: express.Response) => {
   res.send('this is app server!!')
 })
 
+router.get('/example', (req: express.Request, res: express.Response) => {
+  console.log(' ***** headers ***** ')
+  console.log(req.headers)
+  res.json({
+    message: 'hello api'
+  })
+})
+
 app.use(router)
 
 app.listen(port, () => {
