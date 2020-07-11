@@ -1,6 +1,0 @@
-image:
-  repository: 969371781552.dkr.ecr.ap-northeast-1.amazonaws.com/app_server
-  tag: latest
-
-alb:
-  host: lb.aps.local

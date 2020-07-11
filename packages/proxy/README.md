@@ -28,23 +28,51 @@ server.key
 server.crt
 ```
 
-### クライアント証明書
+### クライアント証明書 w/ mkcert
 
 ```bash
 $ cd ssl
 $ export CLIENT_NAME=user1
-$ openssl genrsa -des3 -out $(CLIENT_NAME).key 4096
+$ openssl genrsa -des3 -out ${CLIENT_NAME}.key 4096
 # 証明書発行要求の作成
-$ openssl req -new -key $(CLIENT_NAME).key -out $(CLIENT_NAME).csr -subj "/C=JP/ST=Tokyo/L=Minato/CN=${CLIENT_NAME}"
+$ openssl req -new -key ${CLIENT_NAME}.key -out ${CLIENT_NAME}.csr -subj "/C=JP/ST=Tokyo/L=Minato/CN=${CLIENT_NAME}"
 
 # 認証局(ローカル)が証明書発行要求に対してクライアント証明書(デジタル証明書)の発行
-$ openssl x509 -req -days 365 -in $(CLIENT_NAME).csr -CA "$(mkcert -CAROOT)"/rootCA.pem -CAkey "$(mkcert -CAROOT)"/rootCA-key.pem -set_serial 01 -out $(CLIENT_NAME).crt
+$ openssl x509 -req -days 365 -in ${CLIENT_NAME}.csr -CA "$(mkcert -CAROOT)"/rootCA.pem -CAkey "$(mkcert -CAROOT)"/rootCA-key.pem -set_serial 01 -out ${CLIENT_NAME}.crt
 
 # クライアント証明書をPKCS12形式に変換
-$ openssl pkcs12 -export -out $(CLIENT_NAME).pfx -inkey $(CLIENT_NAME).key -in $(CLIENT_NAME).crt -certfile "$(mkcert -CAROOT)"/rootCA.pem
+$ openssl pkcs12 -export -out ${CLIENT_NAME}.pfx -inkey ${CLIENT_NAME}.key -in ${CLIENT_NAME}.crt -certfile "$(mkcert -CAROOT)"/rootCA.pem
 
 # 証明書をキーチェーンに設定
-$ open $(CLIENT_NAME).pfx
+$ open ${CLIENT_NAME}.pfx
+```
+
+---
+
+### クライアント証明書 w/o mkcert
+
+```bash
+$ cd ssl
+
+# CAの鍵を作成
+$ openssl genrsa -des3 -out ca.key 4096
+
+# CA 証明書を作成
+$ openssl req -new -x509 -days 365 -key ca.key -out ca.crt -subj "/C=JP/ST=Tokyo/L=Minato"
+
+$ export CLIENT_NAME=user1
+$ openssl genrsa -des3 -out ${CLIENT_NAME}.key 4096
+# 証明書発行要求の作成
+$ openssl req -new -key ${CLIENT_NAME}.key -out ${CLIENT_NAME}.csr -subj "/C=JP/ST=Tokyo/L=Minato/CN=${CLIENT_NAME}"
+
+# 認証局(ローカル)が証明書発行要求に対してクライアント証明書(デジタル証明書)の発行
+$ openssl x509 -req -days 365 -in ${CLIENT_NAME}.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out ${CLIENT_NAME}.crt
+
+# クライアント証明書をPKCS12形式に変換
+$ openssl pkcs12 -export -out ${CLIENT_NAME}.pfx -inkey ${CLIENT_NAME}.key -in ${CLIENT_NAME}.crt -certfile ca.crt
+
+# 証明書をキーチェーンに設定
+$ open ${CLIENT_NAME}.pfx
 ```
 
 **curl での確認**

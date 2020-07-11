@@ -1,5 +1,5 @@
 {
-  "name": "@client_certificate_proxy/tls_termination_proxy",
+  "name": "@client_certificate_proxy/proxy",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "ysku <yusuke1581@gmail.com>",
@@ -19,9 +19,7 @@
   "bugs": {
     "url": "https://github.com/ysku/client_certificate_proxy/issues"
   },
-  "dependencies": {
-    "express": "^4.17.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^14.0.6",
     "ts-node": "^8.10.2",
